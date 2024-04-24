@@ -17,6 +17,7 @@ defineProps({towerEvent: {type: TowerEvent, required: true}})
         <p>Hosted by {{ towerEvent.creator.name }}</p>
         <p>{{ towerEvent.startDate.toDateString() }} - <br/> {{ towerEvent.location }}</p>
         <p>Event capacity: {{ towerEvent.capacity }}</p>
+        <button v-if="towerEvent.isCanceled" disabled class="btn btn-danger opacity-100 rounded">Cancelled</button>
       </div>
     </div>
   </RouterLink>

@@ -26,6 +26,7 @@ class TowerEventsService {
     const towerEventToEdit = await this.getTowerEventById(eventId)
 
     if (towerEventToEdit.creatorId != eventData.creatorId) throw new Forbidden('Cannot edit someone elses event!')
+    if (towerEventToEdit.isCanceled == true) throw new Error("You cannot edit a cancelled event")
 
     towerEventToEdit.name = eventData.name ?? towerEventToEdit.name
     towerEventToEdit.description = eventData.description ?? towerEventToEdit.description

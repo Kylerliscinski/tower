@@ -21,15 +21,15 @@ const filters = [
     icon: "<i class='mdi mdi-infinity fs-5'></i>"
   },
   {
-    name: 'concerts',
+    name: 'concert',
     icon: "<i class='mdi mdi-guitar-electric fs-5'></i>"
   },
   {
-    name: 'conventions',
+    name: 'convention',
     icon: "<i class='mdi mdi-account-group-outline fs-5'></i>"
   },
   {
-    name: 'sports',
+    name: 'sport',
     icon: "<i class='mdi mdi-soccer fs-5'></i>"
   },
   {
@@ -97,8 +97,8 @@ onMounted(() => {
       <div class="col-12 ps-5 mt-5">
         <h1 class="text-black fw-bold">Explore top categories</h1>
       </div>
-      <div class="col-2 px-5 py-4" v-for="filterObj in filters" :key="filterObj.icon">
-        <div @click="filterBy = filterObj.icon" role="button" class="filter-card border border-dark rounded selectable" :style="`${filterObj.icon}`">
+      <div class="col-2 px-5 py-4" v-for="filterObj in filters" :key="filterObj.name">
+        <div @click="filterBy = filterObj.name" role="button" class="filter-card border border-dark rounded selectable" :style="`${filterObj.name}`">
           <!-- {{ filterObj.icon }} -->
           <br/> <h4 class="text-center">{{ filterObj.name }}</h4> 
         </div>

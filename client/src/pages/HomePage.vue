@@ -4,6 +4,7 @@ import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
 import { towerEventsService } from "../services/TowerEventsService.js";
 import EventCard from "../components/EventCard.vue";
+import ModalWrap from "../components/ModalWrap.vue";
 
 
 const filterBy = ref('all')
@@ -80,7 +81,10 @@ onMounted(() => {
         <div class="card bg-light p-4">
           <h1>Start an event to invite your friends</h1>
           <p>Create your own Tower event, and draw from a community of millions</p>
-          <p class="fw-bold text-success selectable">Create an event</p>
+          <ModalWrap modalId="create-towerEvent-modal">
+            <p class="fw-bold text-success">Create an event</p>
+
+          </ModalWrap>
         </div>
       </div>
     </div>
@@ -108,7 +112,6 @@ onMounted(() => {
         <h1 class="text-black fw-bold">Upcoming Events</h1>
       </div>
       <div v-for="towerEvent in towerEvents" :key="towerEvent.id" class="col-12 col-md-4 p-2">
-        <!-- //NOTE - Events go here -->
         <EventCard :towerEvent="towerEvent"/>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from "vue";
 import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
 import { towerEventsService } from "../services/TowerEventsService.js";
+import EventCard from "../components/EventCard.vue";
 
 
 const filterBy = ref('all')
@@ -106,9 +107,9 @@ onMounted(() => {
       <div class="col-12 ps-5 mt-5">
         <h1 class="text-black fw-bold">Upcoming Events</h1>
       </div>
-      <div class="col-12 col-md-4">
+      <div v-for="towerEvent in towerEvents" :key="towerEvent.id" class="col-12 col-md-4 p-2">
         <!-- //NOTE - Events go here -->
-        <h5>{{ towerEvents }}</h5>
+        <EventCard :towerEvent="towerEvent"/>
       </div>
     </div>
   </section>

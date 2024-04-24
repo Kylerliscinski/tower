@@ -9,5 +9,8 @@ export const AppState = reactive({
   account: null,
   
   /**@type {TowerEvent[]} */
-  towerEvents: []
+  towerEvents: [],
+
+  /**@type {TowerEvent} */
+  activeTowerEvent: null
 })

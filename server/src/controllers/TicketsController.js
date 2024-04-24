@@ -10,6 +10,7 @@ export class TicketsController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createTicket)
+      .delete('/:ticketId', this.destroyTicket)
   }
 
   async createTicket(request, response, next) {
@@ -20,6 +21,17 @@ export class TicketsController extends BaseController {
 
       const ticket = await ticketsService.createTicket(ticketData)
       response.send(ticket)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async destroyTicket(request, response, next) {
+    try {
+      const ticketId = request.params.ticketId
+      const user = request.userInfo
+      const message = await ticketsService.destroyTicket(ticketId, user.id)
+      response.send(message)
     } catch (error) {
       next(error)
     }

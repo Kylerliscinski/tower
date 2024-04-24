@@ -21,10 +21,10 @@ TowerEventSchema.virtual('creator', {
   justOne: true
 })
 
-//NOTE - Come back and fill this out
 TowerEventSchema.virtual('ticketCount', {
-  localField: 'accountId',
-  ref: 'Account',
-  foreignField: '_id',
-  justOne: true
+  localField: '_id',
+  ref: 'Ticket',
+  foreignField: 'eventId',
+  justOne: false,
+  count: true
 })

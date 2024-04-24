@@ -5,6 +5,7 @@ import Pop from "../utils/Pop.js";
 import { towerEventsService } from "../services/TowerEventsService.js";
 import EventCard from "../components/EventCard.vue";
 import ModalWrap from "../components/ModalWrap.vue";
+import TowerEventForm from "../components/TowerEventForm.vue";
 
 
 const filterBy = ref('all')
@@ -81,9 +82,9 @@ onMounted(() => {
         <div class="card bg-light p-4">
           <h1>Start an event to invite your friends</h1>
           <p>Create your own Tower event, and draw from a community of millions</p>
+          <p data-bs-toggle="modal" data-bs-target="#create-towerEvent-modal" class="fw-bold text-success selectable">Create an event</p>
           <ModalWrap modalId="create-towerEvent-modal">
-            <p class="fw-bold text-success">Create an event</p>
-
+            <TowerEventForm/>
           </ModalWrap>
         </div>
       </div>

@@ -1,4 +1,5 @@
 <script setup>
+import TowerEventForm from "./TowerEventForm.vue";
 
 defineProps({modalId: String})
 

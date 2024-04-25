@@ -33,14 +33,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="about text-start p-3 container">
+  <div class="about text-start p-3 container-fluid">
     <div v-if="account" class="row">
-      <div class="col-2">
+      <div class="col-1">
         <img class="rounded" :src="account.picture" alt="" />
       </div>
-      <div class="col-3">
+      <div class="col-12">
         <h1>{{ account.name }}</h1>
-        <p>Events ~ Tickets</p>
+        <p> ~ Events</p>
       </div>
     </div>
     <div v-else>
@@ -50,7 +50,7 @@ onMounted(() => {
   
   <section class="container-fluid">
     <div class="row">
-      <div v-for="ticket in tickets" :key="ticket.id" class="col-6 col-md-4">
+      <div v-for="ticket in tickets" :key="ticket.id" class="col-12 col-md-4 col-sm-6">
         <!-- {{ tickets }} -->
         <EventCard :towerEvent="ticket.towerEvent"/>
         <div class="text-end">

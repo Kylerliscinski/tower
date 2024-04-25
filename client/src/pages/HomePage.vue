@@ -20,23 +20,18 @@ const towerEvents = computed(() => {
 const filters = [
   {
     name: 'all',
-    icon: "<i class='mdi mdi-infinity fs-5'></i>"
   },
   {
     name: 'concert',
-    icon: "<i class='mdi mdi-guitar-electric fs-5'></i>"
   },
   {
     name: 'convention',
-    icon: "<i class='mdi mdi-account-group-outline fs-5'></i>"
   },
   {
     name: 'sport',
-    icon: "<i class='mdi mdi-soccer fs-5'></i>"
   },
   {
     name: 'digital',
-    icon: "<i class='mdi mdi-monitor fs-5'></i>"
   }
 ]
 
@@ -60,7 +55,7 @@ onMounted(() => {
 <!-- //!SECTION Large bg-image & Text-->
   <section class="container-fluid bg-image">
     <div class="row p-5 justify-content-end">
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <h1 class="text-white fw-bold">Event Management for People, <br/> by People</h1>
         <h5 class="text-white">Whatever your interest, from hiking and reading to networking and skill sharing, there are thousands of people who share it on Tower. Events are happening every day - log in to join the fun.
         </h5>
@@ -68,20 +63,21 @@ onMounted(() => {
     </div>
   </section>
 
-  <!-- //!SECTION Search Modal & Create Event Modal -->
+  <!-- //!SECTION Create Event Modal -->
   <section class="container-fluid">
     <div class="row justify-content-around">
       <div class="col-12 ps-5 mt-5">
         <h1 class="text-black fw-bold">How Tower works</h1>
       </div>
-      <div class="col-5 px-5 py-4">
-        <div class="card bg-light p-4">
+      <div class="col-12 col-md-5 px-5 py-4">
+        <div class="card filter-card p-4">
           <h1>Discover events you're interested in</h1>
           <p>Browse through community hosted events for all the things you love</p>
+          <p>Don't miss out!</p>
         </div>
       </div>
-      <div class="col-5 px-5 py-4">
-        <div class="card bg-light p-4">
+      <div class="col-12 col-md-5 px-5 py-4">
+        <div class="card filter-card p-4">
           <h1>Start an event to invite your friends</h1>
           <p>Create your own Tower event, and draw from a community of millions</p>
           <p v-if="account" data-bs-toggle="modal" data-bs-target="#create-towerEvent-modal" class="fw-bold text-success selectable">Create an event</p>
@@ -95,14 +91,13 @@ onMounted(() => {
 
   <!-- //!SECTION Filter search -->
   <section class="container-fluid">
-    <div class="row justify-content-around">
-      <div class="col-12 ps-5 mt-5">
+    <div class="row justify-content-between mx-1">
+      <div class="col-12 mt-5 ps-4">
         <h1 class="text-black fw-bold">Explore top categories</h1>
       </div>
-      <div class="col-2 px-5 py-4" v-for="filterObj in filters" :key="filterObj.name">
-        <div @click="filterBy = filterObj.name" role="button" class="filter-card border border-dark rounded selectable" :style="`${filterObj.name}`">
-          <!-- {{ filterObj.icon }} -->
-          <br/> <h4 class="text-center">{{ filterObj.name }}</h4> 
+      <div class="col-12 col-md-2 px-1 mt-4" v-for="filterObj in filters" :key="filterObj.name">
+        <div @click="filterBy = filterObj.name" role="button" class="filter-card rounded selectable shadow" :style="`${filterObj.name}`">
+          <h4 class="text-center py-3">{{ filterObj.name }}</h4> 
         </div>
       </div>
     </div>
@@ -114,7 +109,7 @@ onMounted(() => {
       <div class="col-12 ps-5 mt-5">
         <h1 class="text-black fw-bold">Upcoming Events</h1>
       </div>
-      <div v-for="towerEvent in towerEvents" :key="towerEvent.id" class="col-12 col-md-4 p-2">
+      <div v-for="towerEvent in towerEvents" :key="towerEvent.id" class="col-12 col-md-4 col-sm-6 p-2">
         <EventCard :towerEvent="towerEvent"/>
       </div>
     </div>
@@ -127,5 +122,9 @@ onMounted(() => {
   height: 70dvh;
   background-position: center;
   background-size: cover;
+}
+
+.filter-card{
+  background-color: rgb(234, 226, 232);
 }
 </style>

@@ -108,7 +108,7 @@ onBeforeMount(() => {
     <div class="row justify-content-center">
 
       <!-- //!SECTION Large image + cancelled/sold out banner -->
-      <div class="col-8 text-center large-image mb-4">
+      <div class="col-12 col-md-8 text-center large-image mb-4">
         <div class="d-flex align-items-end float-end mt-3">
           <button v-if="towerEvents.isCanceled" disabled class="btn btn-danger opacity-100 rounded">Cancelled</button>
           <button v-if="towerEvents.ticketCount == 0" disabled class="btn btn-warning opacity-100 rounded">Sold Out!</button>
@@ -116,18 +116,32 @@ onBeforeMount(() => {
       </div>
 
       <!-- //!SECTION Left side of the page -->
-      <div class="col-5">
+      <div class="col-12 col-md-7">
         <div class="row">
 
           <!-- //!SECTION Event info -->
           <div class="col-12">
-            <p v-if="youHaveATicket" class="text-success">You have a ticket!</p>
+
+          <!-- //!SECTION Delete -->
+            <div class="d-flex justify-content-between">
+              <p v-if="youHaveATicket" class="text-success">You have a ticket!</p>
+              <div class="dropdown open text-end">
+                <button v-if="towerEvents.creatorId == account?.id" class="btn btn-outline-secondary dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Options
+                </button>
+                <div class="dropdown-menu p-0" aria-labelledby="triggerId">
+                <!-- <option class="dropdown-item text-warning selectable">Edit <i class="mdi mdi-pencil"></i></option> -->
+                <option @click="cancelTowerEvent(towerEvents.id)" v-if="towerEvents.isCanceled" disabled class="dropdown-item text-dark">Cancel <i class="mdi mdi-trash-can"></i></option>
+                <option @click="cancelTowerEvent(towerEvents.id)" v-else class="dropdown-item text-danger selectable">Cancel Event<i class="mdi mdi-trash-can"></i></option>
+              </div>
+            </div>
+            </div>
             <h1 class="text-black fw-bold">{{ towerEvents.name }}</h1>
-            <p>{{ towerEvents.description }}</p>
+            <p class="mb-4">{{ towerEvents.description }}</p>
             <h3>Date and Time</h3>
-            <h5><i class="mdi mdi-calendar"> {{ towerEvents.startDate.toLocaleString() }}</i></h5>
+            <h5><i class="mdi mdi-calendar"> ~ {{ towerEvents.startDate.toLocaleString() }}</i></h5>
             <h3>Location</h3>
-            <h5><i class="mdi mdi-map"> {{ towerEvents.location }}</i></h5>
+            <h5 class="mb-4"><i class="mdi mdi-map"> ~ {{ towerEvents.location }}</i></h5>
             <h3>See what folks are saying...</h3>
             <div class="card">
               <form v-if="account" @submit.prevent="createComment()" class="p-4">
@@ -140,14 +154,14 @@ onBeforeMount(() => {
                 <div class="col-10">
                   <div v-for="towerComment in comments" :key="towerComment.id" class="card px-2 my-1 shadow">
                     <div class="row align-items-center">
-                      <div class="col-2 p-3 text-center">
+                      <div class="col-12 col-md-2 p-3 text-center">
                         <img class="profile-img" :src="towerComment.creator?.picture" alt="">
                       </div>
-                      <div class="col-7 text-start">
+                      <div class="col-12 col-md-7 text-start">
                         <p>{{ towerComment.creator?.name }} <br/>
-                        {{ towerComment.body }}</p>
+                        "{{ towerComment.body }}"</p>
                       </div>
-                      <div class="col-3">
+                      <div class="col-12 col-md-3">
                         <p v-if="youHaveATicket && towerComment.creatorId == towerEvents.creatorId" class="m-1 bg-primary rounded bg-opacity-50 text-center">Attending</p>
                         <p v-if="towerComment.creatorId == towerEvents.creatorId" class="m-1 bg-secondary rounded bg-opacity-50 text-center">Host</p>
                         <p @click="destroyComment(towerComment.id)" v-if="account?.id == towerComment.creatorId" class="mx-1 bg-danger rounded text-center bg-opacity-75 w-25 float-end selectable" role="button"><i class="mdi mdi-trash-can"></i></p>
@@ -163,22 +177,8 @@ onBeforeMount(() => {
       </div>
 
       <!-- //!SECTION Right side of the page -->
-      <div class="col-4">
+      <div class="col-12 col-md-4 mt-5">
         <div class="row">
-          
-          <!-- //!SECTION Edit & Delete -->
-          <div class="col-12 py-2">
-            <div class="dropdown open text-end">
-                <button v-if="towerEvents.creatorId == account?.id" class="btn btn-outline-secondary dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Options
-                </button>
-                <div class="dropdown-menu p-0" aria-labelledby="triggerId">
-                <!-- <option class="dropdown-item text-warning selectable">Edit <i class="mdi mdi-pencil"></i></option> -->
-                <option @click="cancelTowerEvent(towerEvents.id)" v-if="towerEvents.isCanceled" disabled class="dropdown-item text-dark">Cancel <i class="mdi mdi-trash-can"></i></option>
-                <option @click="cancelTowerEvent(towerEvents.id)" v-else class="dropdown-item text-danger selectable">Cancel <i class="mdi mdi-trash-can"></i></option>
-              </div>
-            </div>
-          </div>
 
           <!-- //!SECTION Create ticket -->
           <div class="col-12">

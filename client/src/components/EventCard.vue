@@ -9,9 +9,8 @@ defineProps({towerEvent: {type: TowerEvent, required: true}})
 
 <template>
   <RouterLink :to="{name: 'Tower Event Details', params: {eventId: towerEvent.id}}">
-    <div class="card d-flex g-2 h-100">
-      <!-- //FIXME - Fix img height -->
-      <img class="img-fluid" :src="towerEvent.coverImg" alt="">
+    <div class="card d-flex g-2">
+      <img class="img-fluid event-card-image" :src="towerEvent.coverImg" alt="">
       <div class="card-body">
         <h4>{{ towerEvent.name }}</h4>
         <p v-if="towerEvent.creator">Hosted by {{ towerEvent.creator.name }}</p>
@@ -26,9 +25,11 @@ defineProps({towerEvent: {type: TowerEvent, required: true}})
 
 
 <style lang="scss" scoped>
-div{
-  img{
-    max-height: fit-content;
-  }
+.event-card-image{
+  height: 250px;
+  object-fit: cover;
+  object-position: center;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 </style>

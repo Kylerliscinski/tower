@@ -12,14 +12,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-sm bg-white px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img class="img-fluid logo" src="https://www.pngall.com/wp-content/uploads/5/Cell-Tower-Transparent.png" alt="">
+  <nav class="container-fluid bg-white p-3">
+    <div class="row">
+      <div class="col-6">
+        <router-link :to="{ name: 'Home' }">
+          <div class="align-items-center">
+            <img class="logo pb-1" src="https://www.pngall.com/wp-content/uploads/5/Cell-Tower-Transparent.png" alt="">
+          </div>
+        </router-link>
       </div>
-    </router-link>
-      <!-- LOGIN COMPONENT HERE -->
-      <Login />
+      <div class="col-6"> 
+        <div class="align-items-center float-end">
+          <Login />
+        </div>
+      </div>
+    </div>
   </nav>
 </template>
 
@@ -38,14 +45,17 @@ a:hover {
   border-bottom-right-radius: 0;
 }
 
-@media screen and (min-width: 576px) {
+/* @media screen and (min-width: 576px) {
   nav {
     height: 64px;
   }
-}
+} */
 
 .logo{
-  width: fit-content;
-  height: 5vh;
+  height: 55px;
+  aspect-ratio: 1/1;
+  border-radius: 50em;
+  object-fit: cover;
+  object-position: center;
 }
 </style>

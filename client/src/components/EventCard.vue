@@ -14,7 +14,7 @@ defineProps({towerEvent: {type: TowerEvent, required: true}})
       <img class="img-fluid" :src="towerEvent.coverImg" alt="">
       <div class="card-body">
         <h4>{{ towerEvent.name }}</h4>
-        <p>Hosted by {{ towerEvent.creator.name }}</p>
+        <p v-if="towerEvent.creator">Hosted by {{ towerEvent.creator.name }}</p>
         <p>{{ towerEvent.startDate.toDateString() }} - <br/> {{ towerEvent.location }}</p>
         <p>{{ towerEvent.attending }} Attending</p>
         <button v-if="towerEvent.isCanceled" disabled class="btn btn-danger opacity-100 rounded">Cancelled</button>

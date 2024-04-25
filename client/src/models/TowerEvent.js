@@ -14,7 +14,7 @@ export class TowerEvent{
     this.startDate = new Date(data.startDate)
     this.isCanceled = data.isCanceled
     this.type = data.type
-    this.creator = new Account(data.creator)
+    this.creator = data.creator ? new Account(data.creator) : null
     this.createdAt = new Date(data.createdAt)
     this.updatedAt = new Date(data.updatedAt)
     this.ticketCount = (data.capacity - data.ticketCount)

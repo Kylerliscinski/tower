@@ -7,6 +7,19 @@ import { api } from "./AxiosService.js"
 
 
 class TicketsService{
+  async deleteTicket(ticketId) {
+    const response = await api.delete(`api/tickets/${ticketId}`)
+    logger.log("You are now unattending", response.data)
+    const indexToRemove = AppState.accountTickets.findIndex(ticket => ticket.id == ticketId)
+    Pop.success("You are no longer attending!")
+    AppState.accountTickets.splice(indexToRemove, 1)
+  }
+  async getAccountTicketTowerEvents() {
+    const response = await api.get('account/tickets')
+    logger.log("Got account tickets", response.data)
+    const tickets = response.data.map(ticketData => new Ticket(ticketData))
+    AppState.accountTickets = tickets
+  }
   async getTowerEventTickets(eventId) {
     const response = await api.get(`api/events/${eventId}/tickets`)
     logger.log("got all tickets for this event", response.data)

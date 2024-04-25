@@ -1,8 +1,15 @@
 <script setup>
+import { computed } from "vue";
 import { TowerEvent } from "../models/TowerEvent.js";
+import { AppState } from "../AppState.js";
 
 
 defineProps({towerEvent: {type: TowerEvent, required: true}})
+
+const tickets = computed(() => AppState.activeTowerEventTickets)
+// FIXME - you have a ticket does not work
+const youHaveATicket = computed(() => tickets.value.find(ticket => ticket.creatorId == AppState.account.id))
+
 
 </script>
 
@@ -18,6 +25,7 @@ defineProps({towerEvent: {type: TowerEvent, required: true}})
         <p>{{ towerEvent.startDate.toDateString() }} - <br/> {{ towerEvent.location }}</p>
         <p>Event capacity: {{ towerEvent.capacity }}</p>
         <button v-if="towerEvent.isCanceled" disabled class="btn btn-danger opacity-100 rounded">Cancelled</button>
+        <button v-if="youHaveATicket" disabled class="btn btn-success opacity-100 rounded">Attending</button>
       </div>
     </div>
   </RouterLink>

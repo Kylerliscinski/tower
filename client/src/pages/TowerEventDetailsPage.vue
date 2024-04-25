@@ -5,11 +5,15 @@ import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
 import { towerEventsService } from "../services/TowerEventsService.js";
 import { logger } from "../utils/Logger.js";
+import { ticketsService } from "../services/TicketsService.js";
 
 const route = useRoute()
 const towerEvent = computed(() => AppState.activeTowerEvent)
 const account = computed(() => AppState.account)
 const coverImg = computed(() => `url(${AppState.activeTowerEvent?.coverImg})`)
+const tickets = computed(() => AppState.activeTowerEventTickets)
+// FIXME - you have a ticket does not work
+const youHaveATicket = computed(() => tickets.value.find(ticket => ticket.creatorId == AppState.account.id))
 
 async function getTowerEventById(){
   try {
@@ -25,6 +29,16 @@ async function cancelTowerEvent(eventId){
     await towerEventsService.cancelTowerEvent(eventId)
   } catch (error) {
     Pop.toast("Could not cancel event", 'error')
+    console.error(error)
+  }
+}
+
+async function createTicket(){
+  try {
+    const eventData = {eventId: route.params.eventId}
+    await ticketsService.createTicket(eventData)
+  } catch (error) {
+    Pop.toast("Could not create ticket")
     console.error(error)
   }
 }
@@ -51,6 +65,7 @@ onMounted(() => getTowerEventById())
       <div class="col-5">
         <div class="row">
           <div class="col-12">
+            <p v-if="youHaveATicket" class="text-success">You have a ticket!</p>
             <h1 class="text-black fw-bold">{{ towerEvent.name }}</h1>
             <p>{{ towerEvent.description }}</p>
             <h3>Date and Time</h3>
@@ -89,8 +104,10 @@ onMounted(() => getTowerEventById())
             <div class="card text-center py-3 px-5">
               <h4>Interested in going?</h4>
               <p>Grab a ticket!</p>
-              <button v-if="towerEvent.isCanceled" disabled class="btn btn-primary rounded">Attend</button>
-              <button v-else class="btn btn-primary rounded">Attend</button>
+              <div v-if="account">
+                <button v-if="towerEvent.isCanceled" disabled class="btn btn-primary rounded">Attend</button>
+                <button @click="createTicket()" v-else class="btn btn-primary rounded">Attend</button>
+              </div>
             </div>
           </div>
         </div>

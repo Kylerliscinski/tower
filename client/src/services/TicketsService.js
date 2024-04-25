@@ -7,12 +7,19 @@ import { api } from "./AxiosService.js"
 
 
 class TicketsService{
+  async getTowerEventTickets(eventId) {
+    const response = await api.get(`api/events/${eventId}/tickets`)
+    logger.log("got all tickets for this event", response.data)
+    const tickets = response.data.map(ticketData => new Ticket(ticketData))
+    AppState.activeTowerEventTickets = tickets
+  }
   async createTicket(eventData) {
     const response = await api.post('api/tickets', eventData)
     logger.log("Ticket created", response.data)
     const ticket = new Ticket(response.data)
     Pop.success("You got a ticket!")
     AppState.activeTowerEventTickets.push(ticket)
+    AppState.activeTowerEvent.ticketCount -= 1
   }
 
 }

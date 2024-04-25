@@ -10,6 +10,8 @@ import TowerEventForm from "../components/TowerEventForm.vue";
 
 const filterBy = ref('all')
 
+const account = computed(() => AppState.account)
+
 const towerEvents = computed(() => {
   if(filterBy.value == 'all') return AppState.towerEvents
   return AppState.towerEvents.filter(event => event.type == filterBy.value)
@@ -82,7 +84,7 @@ onMounted(() => {
         <div class="card bg-light p-4">
           <h1>Start an event to invite your friends</h1>
           <p>Create your own Tower event, and draw from a community of millions</p>
-          <p data-bs-toggle="modal" data-bs-target="#create-towerEvent-modal" class="fw-bold text-success selectable">Create an event</p>
+          <p v-if="account" data-bs-toggle="modal" data-bs-target="#create-towerEvent-modal" class="fw-bold text-success selectable">Create an event</p>
           <ModalWrap modalId="create-towerEvent-modal">
             <TowerEventForm/>
           </ModalWrap>

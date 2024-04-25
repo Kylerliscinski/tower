@@ -6,11 +6,6 @@ import { AppState } from "../AppState.js";
 
 defineProps({towerEvent: {type: TowerEvent, required: true}})
 
-const tickets = computed(() => AppState.activeTowerEventTickets)
-// FIXME - you have a ticket does not work
-const youHaveATicket = computed(() => tickets.value.find(ticket => ticket.creatorId == AppState.account.id))
-
-
 </script>
 
 
@@ -23,9 +18,9 @@ const youHaveATicket = computed(() => tickets.value.find(ticket => ticket.creato
         <h4>{{ towerEvent.name }}</h4>
         <p>Hosted by {{ towerEvent.creator.name }}</p>
         <p>{{ towerEvent.startDate.toDateString() }} - <br/> {{ towerEvent.location }}</p>
-        <p>Event capacity: {{ towerEvent.capacity }}</p>
+        <p>{{ towerEvent.attending }} Attending</p>
         <button v-if="towerEvent.isCanceled" disabled class="btn btn-danger opacity-100 rounded">Cancelled</button>
-        <button v-if="youHaveATicket" disabled class="btn btn-success opacity-100 rounded">Attending</button>
+        <button v-if="towerEvent.ticketCount == 0" disabled class="btn btn-warning opacity-100 rounded">Sold Out!</button>
       </div>
     </div>
   </RouterLink>

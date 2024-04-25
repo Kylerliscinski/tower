@@ -12,8 +12,7 @@ const towerEvent = computed(() => AppState.activeTowerEvent)
 const account = computed(() => AppState.account)
 const coverImg = computed(() => `url(${AppState.activeTowerEvent?.coverImg})`)
 const tickets = computed(() => AppState.activeTowerEventTickets)
-// FIXME - you have a ticket does not work
-const youHaveATicket = computed(() => tickets.value.find(ticket => ticket.creatorId == AppState.account.id))
+const youHaveATicket = computed(() => tickets.value.find(ticket => ticket.accountId == AppState.account?.id))
 
 async function getTowerEventById(){
   try {
@@ -33,21 +32,28 @@ async function cancelTowerEvent(eventId){
   }
 }
 
+async function getTowerEventTickets(){
+  try {
+    await ticketsService.getTowerEventTickets(route.params.eventId)
+  } catch (error) {
+    Pop.toast("Could not get tickets for this event", 'error')
+  }
+}
+
 async function createTicket(){
   try {
     const eventData = {eventId: route.params.eventId}
     await ticketsService.createTicket(eventData)
   } catch (error) {
-    Pop.toast("Could not create ticket")
+    Pop.toast("Could not create ticket", 'error')
     console.error(error)
   }
 }
 
 onBeforeMount(() => {
   getTowerEventById()
+  getTowerEventTickets()
 })
-
-onMounted(() => getTowerEventById())
 
 </script>
 
@@ -59,6 +65,7 @@ onMounted(() => getTowerEventById())
       <div class="col-8 text-center large-image mb-4">
         <div class="d-flex align-items-end float-end mt-3">
           <button v-if="towerEvent.isCanceled" disabled class="btn btn-danger opacity-100 rounded">Cancelled</button>
+          <button v-if="towerEvent.ticketCount == 0" disabled class="btn btn-warning opacity-100 rounded">Sold Out!</button>
         </div>
       </div>
 
@@ -105,10 +112,11 @@ onMounted(() => getTowerEventById())
               <h4>Interested in going?</h4>
               <p>Grab a ticket!</p>
               <div v-if="account">
-                <button v-if="towerEvent.isCanceled" disabled class="btn btn-primary rounded">Attend</button>
+                <button v-if="towerEvent.isCanceled || towerEvent.ticketCount == 0" disabled class="btn btn-primary rounded">Attend</button>
                 <button @click="createTicket()" v-else class="btn btn-primary rounded">Attend</button>
               </div>
             </div>
+            <p class="text-end">{{ towerEvent.ticketCount }} spots left!</p>
           </div>
         </div>
 

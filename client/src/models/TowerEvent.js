@@ -17,5 +17,7 @@ export class TowerEvent{
     this.creator = new Account(data.creator)
     this.createdAt = new Date(data.createdAt)
     this.updatedAt = new Date(data.updatedAt)
+    this.ticketCount = (data.capacity - data.ticketCount)
+    this.attending = data.ticketCount
   }
 }

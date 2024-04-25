@@ -72,7 +72,7 @@ onMounted(() => {
       <div class="col-12 col-md-5 px-5 py-4">
         <div class="card filter-card p-4">
           <h1>Discover events you're interested in</h1>
-          <p>Browse through community hosted events for all the things you love</p>
+          <p>Browse through community hosted events for all the things you love and enjoy</p>
           <p>Don't miss out!</p>
         </div>
       </div>

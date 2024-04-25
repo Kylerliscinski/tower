@@ -195,7 +195,7 @@ onBeforeMount(() => {
 
           <!-- //!SECTION Attendees -->
           <h3>Attendees</h3>
-          <div class="card">
+          <div data-bs-spy="scroll" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-example card" tabindex="0">
             <div v-for="ticket in tickets" :key="ticket.id" class="col-12">
               <div class="row align-items-center">
                   <div class="col-5 p-3 text-center">

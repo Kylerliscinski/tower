@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeMount, onMounted } from "vue";
+import { computed, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
 import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
@@ -8,7 +8,7 @@ import { logger } from "../utils/Logger.js";
 import { ticketsService } from "../services/TicketsService.js";
 
 const route = useRoute()
-const towerEvent = computed(() => AppState.activeTowerEvent)
+const towerEvents = computed(() => AppState.activeTowerEvent)
 const account = computed(() => AppState.account)
 const coverImg = computed(() => `url(${AppState.activeTowerEvent?.coverImg})`)
 const tickets = computed(() => AppState.activeTowerEventTickets)
@@ -59,13 +59,13 @@ onBeforeMount(() => {
 
 
 <template>
-  <section v-if="towerEvent" class="container-fluid">
+  <section v-if="towerEvents" class="container-fluid">
     <div class="row justify-content-center">
 
       <div class="col-8 text-center large-image mb-4">
         <div class="d-flex align-items-end float-end mt-3">
-          <button v-if="towerEvent.isCanceled" disabled class="btn btn-danger opacity-100 rounded">Cancelled</button>
-          <button v-if="towerEvent.ticketCount == 0" disabled class="btn btn-warning opacity-100 rounded">Sold Out!</button>
+          <button v-if="towerEvents.isCanceled" disabled class="btn btn-danger opacity-100 rounded">Cancelled</button>
+          <button v-if="towerEvents.ticketCount == 0" disabled class="btn btn-warning opacity-100 rounded">Sold Out!</button>
         </div>
       </div>
 
@@ -73,17 +73,17 @@ onBeforeMount(() => {
         <div class="row">
           <div class="col-12">
             <p v-if="youHaveATicket" class="text-success">You have a ticket!</p>
-            <h1 class="text-black fw-bold">{{ towerEvent.name }}</h1>
-            <p>{{ towerEvent.description }}</p>
+            <h1 class="text-black fw-bold">{{ towerEvents.name }}</h1>
+            <p>{{ towerEvents.description }}</p>
             <h3>Date and Time</h3>
-            <h5><i class="mdi mdi-calendar"> {{ towerEvent.startDate.toLocaleString() }}</i></h5>
+            <h5><i class="mdi mdi-calendar"> {{ towerEvents.startDate.toLocaleString() }}</i></h5>
             <h3>Location</h3>
-            <h5><i class="mdi mdi-map"> {{ towerEvent.location }}</i></h5>
+            <h5><i class="mdi mdi-map"> {{ towerEvents.location }}</i></h5>
             <h3>See what folks are saying...</h3>
             <div class="card">
               <form class="p-4">
                 <textarea class="form-control" name="comments" id="comments" rows="5" placeholder="Tell the people..."></textarea>
-                <button v-if="towerEvent.isCanceled" disabled class="btn btn-success rounded float-end mt-1">Post Comment</button>
+                <button v-if="towerEvents.isCanceled" disabled class="btn btn-success rounded float-end mt-1">Post Comment</button>
                 <button v-else class="btn btn-success rounded float-end mt-1">Post Comment</button>
               </form>
               <!-- //FIXME - Add v-for over peoples comments here -->
@@ -96,13 +96,13 @@ onBeforeMount(() => {
         <div class="row">
           <div class="col-12 py-2">
             <div class="dropdown open text-end">
-                <button v-if="towerEvent.creatorId == account?.id" class="btn btn-outline-secondary dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button v-if="towerEvents.creatorId == account?.id" class="btn btn-outline-secondary dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Options
                 </button>
                 <div class="dropdown-menu p-0" aria-labelledby="triggerId">
                 <option class="dropdown-item text-warning selectable">Edit <i class="mdi mdi-pencil"></i></option>
-                <option @click="cancelTowerEvent(towerEvent.id)" v-if="towerEvent.isCanceled" disabled class="dropdown-item text-dark">Cancel <i class="mdi mdi-trash-can"></i></option>
-                <option @click="cancelTowerEvent(towerEvent.id)" v-else class="dropdown-item text-danger selectable">Cancel <i class="mdi mdi-trash-can"></i></option>
+                <option @click="cancelTowerEvent(towerEvents.id)" v-if="towerEvents.isCanceled" disabled class="dropdown-item text-dark">Cancel <i class="mdi mdi-trash-can"></i></option>
+                <option @click="cancelTowerEvent(towerEvents.id)" v-else class="dropdown-item text-danger selectable">Cancel <i class="mdi mdi-trash-can"></i></option>
               </div>
             </div>
           </div>
@@ -112,11 +112,27 @@ onBeforeMount(() => {
               <h4>Interested in going?</h4>
               <p>Grab a ticket!</p>
               <div v-if="account">
-                <button v-if="towerEvent.isCanceled || towerEvent.ticketCount == 0" disabled class="btn btn-primary rounded">Attend</button>
+                <button v-if="towerEvents.isCanceled || towerEvents.ticketCount == 0" disabled class="btn btn-primary rounded">Attend</button>
                 <button @click="createTicket()" v-else class="btn btn-primary rounded">Attend</button>
               </div>
             </div>
-            <p class="text-end">{{ towerEvent.ticketCount }} spots left!</p>
+            <p class="text-end">{{ towerEvents.ticketCount }} spots left!</p>
+          </div>
+
+          <h3>Attendees</h3>
+          <div class="card">
+            <div v-for="ticket in tickets" :key="ticket.id" class="col-12">
+              <div class="row align-items-center">
+                  <div class="col-5 p-3 text-center">
+                  <div class="profile-bar ms-1">
+                    <img class="profile-img" :src="ticket.profile.picture" alt="">
+                  </div>
+                </div>
+                <div class="col-7">
+                  <h5>{{ ticket.profile.name }}</h5>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -133,5 +149,17 @@ onBeforeMount(() => {
   background-position: center;
   height: 60dvh;
   border-radius: 20px;
+}
+.profile-img{
+  height: 55px;
+  aspect-ratio: 1/1;
+  border-radius: 50em;
+  object-fit: cover;
+  object-position: center;
+}
+
+.profile-bar{
+  border-left: 4.5px solid red;
+  padding-right: 25px;
 }
 </style>

@@ -1,7 +1,5 @@
 <script setup>
-import { computed } from "vue";
 import { TowerEvent } from "../models/TowerEvent.js";
-import { AppState } from "../AppState.js";
 
 
 defineProps({towerEvent: {type: TowerEvent, required: true}})

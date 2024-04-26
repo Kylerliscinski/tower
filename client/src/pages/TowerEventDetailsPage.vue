@@ -32,6 +32,9 @@ async function getTowerEventById(){
 
 async function cancelTowerEvent(eventId){
   try {
+    const wantsToDestroy = await Pop.confirm("Are you sure you want cancel this event?")
+    if(!wantsToDestroy) return
+    logger.log('Cancelling event', eventId)
     await towerEventsService.cancelTowerEvent(eventId)
   } catch (error) {
     Pop.toast("Could not cancel event", 'error')
@@ -87,6 +90,9 @@ async function getEventComments(){
 
 async function destroyComment(commentId){
   try {
+    const wantsToDestroy = await Pop.confirm("Are you sure you want top delete this comment?")
+    if(!wantsToDestroy) return
+    logger.log('Destroying comment', commentId)
     await commentsService.destroyComment(commentId)
   } catch (error) {
     Pop.toast("Could not destroy comment", 'error')

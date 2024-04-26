@@ -54,7 +54,7 @@ onMounted(() => {
 
 <!-- //!SECTION Large bg-image & Text-->
   <section class="container-fluid bg-image">
-    <div class="row p-5 justify-content-end">
+    <div class="row ms-1 p-5 justify-content-end">
       <div class="col-12 col-md-6">
         <h1 class="text-white fw-bold">Event Management for People, <br/> by People</h1>
         <h5 class="text-white">Whatever your interest, from hiking and reading to networking and skill sharing, there are thousands of people who share it on Tower. Events are happening every day - log in to join the fun.

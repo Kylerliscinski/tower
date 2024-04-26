@@ -25,6 +25,7 @@ defineProps({towerEvent: {type: TowerEvent, required: true}})
 
 
 <style lang="scss" scoped>
+
 .event-card-image{
   height: 250px;
   object-fit: cover;

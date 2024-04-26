@@ -19,6 +19,8 @@ async function getAccountTicketTowerEvents(){
 
 async function deleteTicket(ticketId){
   try {
+    const wantsToDestroy = await Pop.confirm("Are you sure you want to unattend this event??")
+    if(!wantsToDestroy) return
     await ticketsService.deleteTicket(ticketId)
   } catch (error) {
     Pop.toast("Could not unnatend event", 'error')

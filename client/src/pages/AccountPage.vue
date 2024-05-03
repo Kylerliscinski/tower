@@ -54,7 +54,7 @@ onMounted(() => {
     <div class="row">
       <div v-for="ticket in tickets" :key="ticket.id" class="col-12 col-md-4 col-sm-6">
         <!-- {{ tickets }} -->
-        <EventCard :towerEvent="ticket.towerEvent"/>
+        <EventCard :towerEvent="ticket.towerEvent" :ticketId="ticket.id"/>
         <div class="text-end">
           <button @click="deleteTicket(ticket.id)" class="btn btn-primary rounded">Unattend</button>
         </div>
